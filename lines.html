@@ -14,6 +14,10 @@
       makeNewLine()
     })
 
+    $('.switch').click(function(event){
+      toggleAnimation()
+    })
+
     function makeNewLine(){
       var newLine = document.createElementNS(svgNS,"path");
       newLine.setAttribute("class","line");
@@ -47,6 +51,10 @@
         }
       })
     }
+
+    function toggleAnimation(){
+      $('.line').toggleClass('animated')
+    }
   })
   </script>
 
@@ -59,6 +67,10 @@
       stroke-width: 4;
       stroke-linecap: round;
       mix-blend-mode: difference;
+    }
+    .animated {
+      stroke-dasharray: 0.1, 8;
+      animation: dash 2s infinite alternate;
     }
     #line-0 {
       mix-blend-mode: normal;
@@ -78,9 +90,26 @@
     .start {
       fill: rgba(240, 20, 20, 0.5);
       mix-blend-mode: multiply;
+      transition: fill 1s ease-in-out;
     }
     .start:hover {
-      fill: rgb(240, 20, 20)
+      fill: rgba(20, 200, 20, 0.8)
+    }
+    .switch {
+      fill: rgba(20, 200, 20, 0.5);
+      mix-blend-mode: overlay;
+      transition: fill 1s ease-in-out;
+    }
+    .switch:hover {
+      fill: rgba(20, 20, 200, 0.8)
+    }
+    @keyframes dash {
+      from {
+        stroke-dashoffset: 0;
+      }
+      to {
+        stroke-dashoffset: 20;
+      }
     }
   </style>
 </head>
@@ -93,5 +122,6 @@
        xmlns:xlink="http://www.w3.org/1999/xlink"
        id="svg">
     <circle r="3" cx="12" cy="2" class="start" />
+    <circle r="2" cx="15" cy="1" class="switch" />
   </svg>
 </body>
