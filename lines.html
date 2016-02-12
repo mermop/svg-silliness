@@ -67,10 +67,12 @@
       stroke-width: 4;
       stroke-linecap: round;
       mix-blend-mode: difference;
+      stroke-dasharray: 8, 0.1;
+      transition: stroke-dasharray 1s ease-in-out;
     }
     .animated {
       stroke-dasharray: 0.1, 8;
-      animation: dash 2s infinite alternate;
+      animation: dash 2s infinite ease-in-out alternate;
     }
     #line-0 {
       mix-blend-mode: normal;
