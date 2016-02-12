@@ -1,0 +1,85 @@
+<head>
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js">
+  </script>
+  <script>
+  $(document).ready(function(){
+    var lines = 0;
+    var svgNS = "http://www.w3.org/2000/svg";
+
+    $('#svg').on('click', '.line', function(event){
+      animateLine(this)
+    })
+
+    $('.start').click(function(event){
+      makeNewLine()
+    })
+
+    function makeNewLine(){
+      var newLine = document.createElementNS(svgNS,"path");
+      newLine.setAttribute("class","line");
+      newLine.setAttribute("id",'line-'+lines);
+      document.getElementById("svg").appendChild(newLine);
+      animateLine('#line-'+lines)
+      lines = lines + 1;
+    }
+
+    function animateLine(target){
+      var $this = $(target)
+      var direction = ''
+      var target_start_height = 0
+      var current_height = $this.attr('data-start') || 0
+      if($this.hasClass('down')) {
+        direction = 'up'
+        target_start_height = Math.floor(Math.random() * (15 + 1));
+        $this.toggleClass('down')
+      }
+      else {
+        direction = 'down'
+        target_start_height = Math.floor(Math.random() * (10 + 1));
+        $this.toggleClass('down')
+      }
+      $({start_point: current_height}).animate({start_point: target_start_height}, {
+        duration: 400,
+        step: function (start_point) { // called on every step
+          $this.attr('d', 'M0,'+ (start_point + 5) +' C' + (10 + start_point/2) + ' ' + (20-start_point) + ', ' + start_point + ' ' + (15-start_point) + ', 20 ' + (start_point + 5) )
+          $this.attr('stroke', 'RGBA(' + (255-Math.round(start_point * 5)) + ', ' + Math.round(start_point * 20) + ',' + Math.round(start_point * 10) + ', 0.8)')
+          $this.attr('data-start', start_point)
+        }
+      })
+    }
+  })
+  </script>
+
+  <style>
+    svg {
+      max-height: 100vh;
+    }
+    .line {
+      fill: none;
+      stroke-width: 4;
+      stroke-linecap: round;
+      mix-blend-mode: difference;
+    }
+    #three {
+      mix-blend-mode: multiply;
+    }
+    .start {
+      fill: rgba(240, 20, 20, 0.5);
+      mix-blend-mode: multiply;
+    }
+    .start:hover {
+      fill: rgb(240, 20, 20)
+    }
+  </style>
+</head>
+
+<body>
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <svg viewBox="-2.5 -2.5 25 25"
+       version="1.1"
+       xmlns="http://www.w3.org/2000/svg"
+       xmlns:xlink="http://www.w3.org/1999/xlink"
+       id="svg">
+    <circle r="3" cx="12" cy="3" class="start" />
+  </svg>
+</body>
